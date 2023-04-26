@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormContainer } from "../../styles/pages/createProfile";
+import { FormContainer } from "../../styles/pages/formStep1";
 
 import axiosInstance from "@/utils/axios";
 

@@ -2,7 +2,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import connect from '../../../mongoose'
-import mongoose from 'mongoose';
 const prisma = new PrismaClient();
 
 
@@ -22,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     corsMiddleware(req, res, async () => {
         try {
             await connect();
-            const { name, email, mobileNumber, dateOfBirth } = req.body
+            const { name, email, mobileNumber, dateOfBirth, bloodType } = req.body
             // const user = await User.create({ name, email, mobileNumber, dateOfBirth });
             const user = await prisma.user.create({
                 data: {
@@ -31,6 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     email,
                     mobileNumber,
                     dateOfBirth,
+                    bloodType,
                 }
             })
 

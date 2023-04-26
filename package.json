@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",
+    "@radix-ui/react-toggle-group": "^1.0.3",
     "@stitches/react": "^1.2.8",
     "@types/dotenv": "^8.2.0",
     "@types/node": "18.16.0",

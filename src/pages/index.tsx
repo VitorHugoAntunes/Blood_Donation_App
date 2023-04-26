@@ -36,7 +36,7 @@ function Initial() {
     }
 
     if (currentPosition === screens.length - 1) {
-      router.push("/createProfile")
+      router.push("/createProfile/step1")
     }
   }
 
@@ -46,7 +46,7 @@ function Initial() {
         <Link href="" onClick={() => setCurrentPosition(0)}>
           Previous
         </Link>
-        <Link href="/createProfile">
+        <Link href="/createProfile/step1">
           Skip
         </Link>
       </div>

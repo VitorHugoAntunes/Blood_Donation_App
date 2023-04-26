@@ -58,5 +58,5 @@ export const FormContainer = styled('div', {
         fontWeight: "bold",
         borderRadius: "8px",
         marginTop: "5rem",
-    }
+    },
 })

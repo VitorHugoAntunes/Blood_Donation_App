@@ -16,4 +16,5 @@ model User {
   email        String @unique
   mobileNumber String
   dateOfBirth  String
+  bloodType    String
 }
