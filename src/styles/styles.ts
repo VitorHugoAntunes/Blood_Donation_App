@@ -23,6 +23,7 @@ export const {
             gray50: '#F7F7F7',
 
             red300: '#D60033',
+            red200: '#F9c9E5',
             red100: '#FBE5EB'
         },
 

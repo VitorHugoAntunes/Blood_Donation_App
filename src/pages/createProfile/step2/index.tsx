@@ -22,10 +22,10 @@ function Step1() {
     } = useFormContext()
 
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const data = { name, email, mobileNumber, dateOfBirth, bloodType };
-        axiosInstance.post('../api/users', data)
+        await axiosInstance.post('../api/users', data)
             .then(response => console.log(response.data))
 
         router.push("/home")
@@ -50,7 +50,7 @@ function Step1() {
                     <ToggleGroup.Item className="toggleItem" value="-">-</ToggleGroup.Item>
                 </ToggleGroup.Root>
 
-                <button type="submit" onClick={() => setBloodType(ambivalence + type)}>Next</button>
+                <button type="submit" onClick={() => setBloodType(type + ambivalence)}>Next</button>
             </form>
         </FormContainer>
     )

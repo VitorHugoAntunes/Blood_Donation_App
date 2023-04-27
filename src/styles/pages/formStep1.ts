@@ -7,13 +7,13 @@ export const FormContainer = styled('div', {
 
     ".profileDiv": {
         width: "100vw",
+        height: "10rem",
         background: "$red300",
         display: "flex",
         justifyContent: "center",
 
         h2: {
             marginTop: "2rem",
-            marginBottom: "6rem",
             color: "$white",
         }
     },

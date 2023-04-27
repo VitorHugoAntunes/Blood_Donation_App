@@ -13,7 +13,7 @@ export const FormContainer = styled('div', {
 
         h2: {
             marginTop: "2rem",
-            marginBottom: "6rem",
+            marginBottom: "2rem",
             color: "$white",
         }
     },
