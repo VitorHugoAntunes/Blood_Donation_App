@@ -1,9 +1,9 @@
 ## Features to add
 
-# - Home donors list
-# - Donors filter
+# - Home donors list - check
+# - Donors filter - check
 # - User Auth
-#       - User password on CreateProfile 
+#       - Hash user password on CreateProfile - check
 # - Aside menu
 # - Static page
-# - User picture
+# - User picture - check

@@ -1,56 +1,99 @@
 import { useState } from "react";
-import { FormContainer } from "../../../styles/pages/formStep2";
+import { FormContainer } from "../../../styles/pages/formStep1";
 
-import axiosInstance from "@/utils/axios";
 import { useFormContext } from "@/hooks/useFormData";
 import { useRouter } from "next/router";
-import * as ToggleGroup from '@radix-ui/react-toggle-group';
 
 function Step1() {
     const router = useRouter();
-
-    const [ambivalence, setAmbivalence] = useState('');
-    const [type, setType] = useState('');
+    const [confirmedPassword, setConfirmedPassword] = useState("");
 
     const {
-        name,
-        email,
-        mobileNumber,
+        city,
+        state,
+        password,
         dateOfBirth,
-        bloodType,
-        setBloodType
+        setCity,
+        setState,
+        setPassword,
+        setDateOfBirth
     } = useFormContext()
 
 
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const data = { name, email, mobileNumber, dateOfBirth, bloodType };
-        await axiosInstance.post('../api/users', data)
-            .then(response => console.log(response.data))
 
-        router.push("/home")
+        if (password === confirmedPassword) {
+            router.push("/createProfile/step3")
+        } else {
+            throw new Error("Passwords are not equals.")
+        }
+
     }
 
     return (
         <FormContainer>
             <div className="profileDiv">
-                <h2>Select your blood group</h2>
+                <h2>Create profile</h2>
             </div>
             <form onSubmit={handleSubmit}>
+                <label htmlFor="">Date of Birth</label>
+                <input
+                    type="date"
+                    name="dateOfBirth"
+                    placeholder="10-10-1999"
+                    onChange={event => setDateOfBirth(event.target.value)}
+                    value={dateOfBirth}
+                    required
+                />
 
-                <ToggleGroup.Root className="toggleGroup" type="single" onValueChange={(value) => setType(value)}>
-                    <ToggleGroup.Item className="toggleItem" value="A">A</ToggleGroup.Item>
-                    <ToggleGroup.Item className="toggleItem" value="B">B</ToggleGroup.Item>
-                    <ToggleGroup.Item className="toggleItem" value="AB">AB</ToggleGroup.Item>
-                    <ToggleGroup.Item className="toggleItem" value="O">O</ToggleGroup.Item>
-                </ToggleGroup.Root>
+                <div className="userLocationDiv">
+                    <div>
+                        <label htmlFor="">City</label>
+                        <input
+                            type="text"
+                            name="city"
+                            placeholder="Sao Paulo"
+                            onChange={event => setCity(event.target.value)}
+                            value={city}
+                            required
+                        />
+                    </div>
 
-                <ToggleGroup.Root className="toggleGroup2" type="single" onValueChange={(value) => setAmbivalence(value)}>
-                    <ToggleGroup.Item className="toggleItem" value="+">+</ToggleGroup.Item>
-                    <ToggleGroup.Item className="toggleItem" value="-">-</ToggleGroup.Item>
-                </ToggleGroup.Root>
+                    <div>
+                        <label htmlFor="">State</label>
+                        <input
+                            type="text"
+                            name="state"
+                            placeholder="SP"
+                            onChange={event => setState(event.target.value)}
+                            value={state}
+                            required
+                        />
+                    </div>
+                </div>
 
-                <button type="submit" onClick={() => setBloodType(type + ambivalence)}>Next</button>
+                <label htmlFor="">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="*******"
+                    onChange={event => setPassword(event.target.value)}
+                    value={password}
+                    required
+                />
+
+                <label htmlFor="">Confirm password</label>
+                <input
+                    type="password"
+                    name="confirmedPassword"
+                    placeholder="*******"
+                    onChange={event => setConfirmedPassword(event.target.value)}
+                    value={confirmedPassword}
+                    required
+                />
+
+                <button type="submit">Next</button>
             </form>
         </FormContainer>
     )

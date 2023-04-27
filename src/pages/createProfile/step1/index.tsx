@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { FormContainer } from "../../../styles/pages/formStep1";
 
-import axiosInstance from "@/utils/axios";
 import { useFormContext } from "@/hooks/useFormData";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 function Step1() {
     const router = useRouter();
@@ -12,19 +11,16 @@ function Step1() {
         name,
         email,
         mobileNumber,
-        dateOfBirth,
+        profilePicture,
         setName,
         setEmail,
         setMobileNumber,
-        setDateOfBirth,
+        setProfilePicture
     } = useFormContext()
 
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        // const data = { name, email, mobileNumber, dateOfBirth };
-        // axiosInstance.post('api/users', data)
-        //     .then(response => console.log(response.data))
 
         router.push("/createProfile/step2")
 
@@ -36,7 +32,11 @@ function Step1() {
                 <h2>Create profile</h2>
             </div>
             <div className="profilePictureDiv">
-
+                {profilePicture !== "" ? (
+                    <Image src={profilePicture} alt="Your profile picture" width={200} height={200} />
+                ) : (
+                    <div></div>
+                )}
             </div>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="">Name</label>
@@ -46,6 +46,7 @@ function Step1() {
                     placeholder="John Doe"
                     onChange={event => setName(event.target.value)}
                     value={name}
+                    required
                 />
 
                 <label htmlFor="">Email</label>
@@ -55,6 +56,7 @@ function Step1() {
                     placeholder="john@gmail.com"
                     onChange={event => setEmail(event.target.value)}
                     value={email}
+                    required
                 />
 
                 <label htmlFor="">Mobile Number</label>
@@ -64,15 +66,17 @@ function Step1() {
                     placeholder="(11) 99999-9999"
                     onChange={event => setMobileNumber(event.target.value)}
                     value={mobileNumber}
+                    required
                 />
 
-                <label htmlFor="">Date of Birth</label>
+                <label htmlFor="">Your profile url</label>
                 <input
-                    type="date"
-                    name="dateOfBirth"
-                    placeholder="10-10-1999"
-                    onChange={event => setDateOfBirth(event.target.value)}
-                    value={dateOfBirth}
+                    type="text"
+                    name="profilePicture"
+                    placeholder="https://avatars.githubusercontent.com"
+                    onChange={event => setProfilePicture(event.target.value)}
+                    value={profilePicture}
+                    required
                 />
 
                 <button type="submit">Next</button>

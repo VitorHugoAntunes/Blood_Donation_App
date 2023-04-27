@@ -8,10 +8,18 @@ interface FormDataContextType {
     setEmail: (email: string) => void,
     mobileNumber: string,
     setMobileNumber: (mobileNumber: string) => void
+    profilePicture: string,
+    setProfilePicture: (imgUrl: string) => void
     dateOfBirth: string,
-    setDateOfBirth: (name: string) => void
+    setDateOfBirth: (name: string) => void,
     bloodType: string,
-    setBloodType: (bloodType: string) => void
+    setBloodType: (bloodType: string) => void,
+    city: string,
+    setCity: (city: string) => void,
+    state: string,
+    setState: (state: string) => void,
+    password: string,
+    setPassword: (password: string) => void,
 }
 
 interface FormDataProviderProps {
@@ -24,7 +32,11 @@ export function FormDataProvider({ children }: FormDataProviderProps) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [password, setPassword] = useState('');
     const [bloodType, setBloodType] = useState('');
 
     return (
@@ -32,13 +44,21 @@ export function FormDataProvider({ children }: FormDataProviderProps) {
             name,
             email,
             mobileNumber,
+            profilePicture,
             dateOfBirth,
             bloodType,
+            city,
+            state,
+            password,
             setName,
             setEmail,
             setMobileNumber,
+            setProfilePicture,
             setDateOfBirth,
-            setBloodType
+            setBloodType,
+            setCity,
+            setState,
+            setPassword
         }}>
             {children}
         </FormDataContext.Provider>

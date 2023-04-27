@@ -11,10 +11,14 @@ datasource db {
 }
 
 model User {
-  id           String @id @map("_id")
-  name         String
-  email        String @unique
-  mobileNumber String
-  dateOfBirth  String
-  bloodType    String @default("")
+  id             String @id @map("_id")
+  name           String @default("")
+  email          String @unique
+  mobileNumber   String @default("")
+  dateOfBirth    String @default("")
+  profilePicture String @default("")
+  city           String @default("")
+  state          String @default("")
+  password       String @default("")
+  bloodType      String @default("")
 }

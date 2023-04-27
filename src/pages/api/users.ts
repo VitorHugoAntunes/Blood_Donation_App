@@ -1,5 +1,6 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
+import bcrypt from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
 import connect from '../../../mongoose'
 const prisma = new PrismaClient();
@@ -21,7 +22,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     corsMiddleware(req, res, async () => {
         try {
             await connect();
-            const { name, email, mobileNumber, dateOfBirth, bloodType } = req.body
+            const {
+                name, email, mobileNumber, profilePicture, dateOfBirth, city, state, password, bloodType
+            } = req.body
+
+            // Funcao para criptografar a senha enviada no corpo da requisicao ao criar usuario
+
+            async function generateHash(password: string) {
+                const hash = await new Promise<string>((resolve, reject) => {
+                    bcrypt.hash(password, 10, (err, hash) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(hash);
+                        }
+                    });
+                });
+                return hash;
+            }
+
+            // Necessaria uma variavel auxiliar pois a funcao retorna uma Promise<String> e nao uma string diretamente
+
+            const hashPassword = await generateHash(password)
+
             // const user = await User.create({ name, email, mobileNumber, dateOfBirth });
             const user = await prisma.user.create({
                 data: {
@@ -29,7 +52,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     name,
                     email,
                     mobileNumber,
+                    profilePicture,
                     dateOfBirth,
+                    city,
+                    state,
+                    password: hashPassword,
                     bloodType,
                 }
             })

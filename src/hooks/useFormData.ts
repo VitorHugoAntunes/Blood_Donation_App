@@ -6,25 +6,41 @@ export function useFormContext() {
         name,
         email,
         mobileNumber,
+        profilePicture,
         dateOfBirth,
         bloodType,
+        city,
+        state,
+        password,
         setName,
         setEmail,
         setMobileNumber,
+        setProfilePicture,
         setDateOfBirth,
-        setBloodType
+        setBloodType,
+        setCity,
+        setState,
+        setPassword
     } = useContext(FormDataContext)
 
     return {
         name,
         email,
         mobileNumber,
+        profilePicture,
         dateOfBirth,
         bloodType,
+        city,
+        state,
+        password,
         setName,
         setEmail,
         setMobileNumber,
+        setProfilePicture,
         setDateOfBirth,
-        setBloodType
+        setBloodType,
+        setCity,
+        setState,
+        setPassword
     }
 }

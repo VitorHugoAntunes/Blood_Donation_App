@@ -24,12 +24,28 @@ export const FormContainer = styled('div', {
         height: "9rem",
         border: "1px solid $gray100",
         background: "$white",
-        borderRadius: "50%"
+        borderRadius: "50%",
+
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+
+        img: {
+            width: "95%",
+            height: "95%",
+            borderRadius: "50%",
+        }
     },
 
     form: {
         width: "90vw",
         marginTop: "2rem",
+
+        ".userLocationDiv": {
+            display: "grid",
+            gridTemplateColumns: "2fr 1fr",
+            gap: "1rem"
+        }
     },
 
     label: {
