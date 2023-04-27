@@ -11,7 +11,7 @@ export const globalStyles = globalCss({
     body: {
         backgroundColor: '$white',
         '-webkit-font-smoothing': 'antialiased',
-        maxWidth: "90vw",
+        maxWidth: "100vw",
         maxHeight: "100vh",
         marginLeft: "auto",
         marginRight: "auto",

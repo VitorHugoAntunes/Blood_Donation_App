@@ -5,10 +5,11 @@ export const HomeContainer = styled('div', {
     flexDirection: "column",
     alignItems: "center",
     gap: "1.5rem",
+    scrollbarWidth: "none",
 })
 
 export const TopContainer = styled('div', {
-    width: "100vw",
+    width: "100%",
     minHeight: "10rem",
     background: "$red300",
     display: "flex",
@@ -75,11 +76,10 @@ export const TopContainer = styled('div', {
 })
 
 export const ListContainer = styled('div', {
-    width: "100%",
+    width: "90vw",
     display: "flex",
     flexDirection: "column",
     gap: "2rem",
-    marginBottom: "2rem",
 
     ".buttonsDiv": {
         display: "flex",
@@ -96,20 +96,35 @@ export const ListContainer = styled('div', {
             "&:hover": {
                 filter: "brightness(0.9)"
             }
+        },
+
+        ".toggleItem[data-state='on']": {
+            "-moz-transition": "background 0.1s ease-in-out, color 0.1s ease-in-out",
+            background: "$red100",
+            color: "$red300"
         }
     },
 
     ".usersDiv": {
-        flex: 1,
         display: "flex",
         flexDirection: "column",
         gap: "2rem",
+        marginBottom: "2rem",
+
+        ".loadingDiv": {
+            width: "fit-content",
+            alignSelf: "center",
+
+            span: {
+                fontWeight: "bold"
+            }
+        },
 
         "> div": {
             display: "flex",
             background: "$red100",
             borderRadius: "8px",
-            padding: "1rem",
+            padding: "1rem 1rem",
 
             alignItems: "center",
             justifyContent: "space-between",

@@ -6,7 +6,7 @@ export const FormContainer = styled('div', {
     alignItems: "center",
 
     ".profileDiv": {
-        width: "100vw",
+        width: "100%",
         height: "10rem",
         background: "$red300",
         display: "flex",
@@ -28,6 +28,7 @@ export const FormContainer = styled('div', {
     },
 
     form: {
+        width: "90vw",
         marginTop: "2rem",
     },
 
@@ -57,6 +58,6 @@ export const FormContainer = styled('div', {
         color: "$white",
         fontWeight: "bold",
         borderRadius: "8px",
-        marginTop: "5rem",
+        marginTop: "3rem",
     },
 })

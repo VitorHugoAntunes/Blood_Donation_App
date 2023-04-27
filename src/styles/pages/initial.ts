@@ -3,9 +3,11 @@ import { styled } from "@stitches/react";
 export const InitialContainer = styled('div', {
     display: "flex",
     flexDirection: "column",
-    width: "100%",
-    alignItems: "center",
+    width: "90vw",
+    marginLeft: "auto",
+    marginRight: "auto",
     marginTop: "2rem",
+    alignItems: "center",
 
     a: {
         fontSize: "1rem",

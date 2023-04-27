@@ -2,7 +2,8 @@ import { HomeContainer, ListContainer, TopContainer } from "@/styles/pages/home"
 import axiosInstance from "@/utils/axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FiMessageCircle, FiMenu, FiSearch } from 'react-icons/fi'
+import { FiMessageCircle, FiMenu, FiSearch, FiLoader } from 'react-icons/fi'
+import * as ToggleGroup from '@radix-ui/react-toggle-group';
 
 interface User {
     id: number;
@@ -15,10 +16,14 @@ interface User {
 
 function Home() {
     const [users, setUsers] = useState<User[]>([]);
+    const [loadingUsers, setLoadingUsers] = useState(true);
+    const [bloodTypeFilter, setBloodTypeFilter] = useState("");
+
     useEffect(() => {
         async function FetchData() {
             const response = await axiosInstance.get('./api/getAllUsers')
             setUsers(response.data)
+            setLoadingUsers(false);
         }
 
         FetchData();
@@ -27,6 +32,10 @@ function Home() {
     console.log(users)
 
     const buttonTypes = [{ type: "A+" }, { type: "A-" }, { type: "B+" }, { type: "B-" }, { type: "AB+" }, { type: "AB-" }, { type: "O+" }, { type: "O-" },]
+
+    const filteredUsers = bloodTypeFilter === "" ?
+        users.filter(filteredUser => filteredUser.bloodType.includes("")) :
+        users.filter(filteredUser => filteredUser.bloodType == bloodTypeFilter);
 
     return (
         <HomeContainer>
@@ -43,27 +52,34 @@ function Home() {
             </TopContainer>
 
             <ListContainer>
-                <div className="buttonsDiv">
+                <ToggleGroup.Root className="buttonsDiv" type="single" onValueChange={(value) => setBloodTypeFilter(value)}>
                     {buttonTypes.map(button => (
-                        <button key={button.type}>{button.type}</button>
+                        <ToggleGroup.Item key={button.type} className="toggleItem" value={button.type}>{button.type}</ToggleGroup.Item>
                     ))}
-                </div>
+                </ToggleGroup.Root>
                 <div className="usersDiv">
-                    {users.map(user => (
-                        <div key={user.id}>
-                            <div>
-                                <Image src="https://avatars.githubusercontent.com/u/51717305?v=4" alt="" width={100} height={100} />
+                    {loadingUsers === true ? (
+                        <div className="loadingDiv">
+                            <span>Loading</span>
+                            <FiLoader size={24} />
+                        </div>
+                    ) :
+                        filteredUsers.map(user => (
+                            <div key={user.id}>
                                 <div>
-                                    <h4>{user.name}</h4>
-                                    <span>São Paulo</span>
+                                    <Image src="https://avatars.githubusercontent.com/u/51717305?v=4" alt="" width={100} height={100} />
+                                    <div>
+                                        <h4>{user.name}</h4>
+                                        <span>São Paulo</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong className="userBloodType">{user.bloodType}</strong>
+                                    <button><FiMessageCircle size={24} /></button>
                                 </div>
                             </div>
-                            <div>
-                                <strong className="userBloodType">{user.bloodType}</strong>
-                                <button><FiMessageCircle size={24} /></button>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+
                 </div>
             </ListContainer>
         </HomeContainer>

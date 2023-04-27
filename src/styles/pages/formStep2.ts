@@ -104,6 +104,6 @@ export const FormContainer = styled('div', {
         color: "$white",
         fontWeight: "bold",
         borderRadius: "8px",
-        marginTop: "5rem",
+        marginTop: "3rem",
     }
 })
