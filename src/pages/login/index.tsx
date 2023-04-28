@@ -1,9 +1,7 @@
 import { FormContainer } from "../../styles/pages/formStep1";
-import { signIn } from 'next-auth/react';
 
 import { useRouter } from "next/router";
 import { useState } from "react";
-import axiosInstance from "@/utils/axios";
 
 function Step1() {
     const router = useRouter();
