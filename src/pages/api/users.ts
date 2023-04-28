@@ -5,7 +5,6 @@ import { PrismaClient } from '@prisma/client';
 import connect from '../../../mongoose'
 const prisma = new PrismaClient();
 
-
 import cors from 'cors'
 
 const corsMiddleware = cors({

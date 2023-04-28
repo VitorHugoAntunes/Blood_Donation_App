@@ -7,3 +7,4 @@
 # - Aside menu
 # - Static page
 # - User picture - check
+# - Add useMemo and useCallback for home page performance

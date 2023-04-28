@@ -2,6 +2,9 @@ import { HomeContainer, ListContainer, TopContainer } from "@/styles/pages/home"
 import axiosInstance from "@/utils/axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/router';
+import cookies from 'js-cookie';
+
 import { FiMessageCircle, FiMenu, FiSearch, FiLoader } from 'react-icons/fi'
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 
@@ -18,6 +21,9 @@ function Home() {
     const [users, setUsers] = useState<User[]>([]);
     const [loadingUsers, setLoadingUsers] = useState(true);
     const [bloodTypeFilter, setBloodTypeFilter] = useState("");
+    const [userCookieSession, setUserCookieSession] = useState<string>('');
+
+    const router = useRouter()
 
     useEffect(() => {
         async function FetchData() {
@@ -28,6 +34,14 @@ function Home() {
 
         FetchData();
     }, [])
+
+    useEffect(() => {
+        const token = cookies.get('token');
+
+        setUserCookieSession(token!)
+        console.log(token)
+    }, [])
+
 
     console.log(users)
 
@@ -87,3 +101,14 @@ function Home() {
 }
 
 export default Home;
+
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//     const { req } = context;
+//     const userCookie = req.headers.cookie
+//     const token = userCookie?.split('=')[1];
+//     return {
+//         props: {
+//             token
+//         }
+//     }
+// }
