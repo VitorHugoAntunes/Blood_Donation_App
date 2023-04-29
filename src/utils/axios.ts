@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    timeout: 15000,
+    timeout: 4000,
     headers: { 'Access-Control-Allow-Origin': '*' }
 });
 

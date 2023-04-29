@@ -7,6 +7,8 @@ import cookies from 'js-cookie';
 
 import { FiMessageCircle, FiMenu, FiSearch, FiLoader } from 'react-icons/fi'
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
+import { useCurrentUserContext } from "@/hooks/useCurrentUser";
+import axios from "axios";
 
 interface User {
     id: number;
@@ -15,6 +17,9 @@ interface User {
     mobileNumber: string;
     dateOfBirth: string;
     bloodType: string;
+    profilePicture: string;
+    city: string;
+    state: string;
 }
 
 function Home() {
@@ -22,10 +27,30 @@ function Home() {
     const [loadingUsers, setLoadingUsers] = useState(true);
     const [bloodTypeFilter, setBloodTypeFilter] = useState("");
     const [userCookieSession, setUserCookieSession] = useState<string>('');
+    const [currentLoggedUser, setCurrentLoggedUser] = useState<User>({} as User);
 
     const router = useRouter()
 
     useEffect(() => {
+        if (currentLoggedUser) {
+            localStorage.getItem("currentUser")
+        }
+
+
+        async function FetchLoggedUser() {
+            const currentLoggedUserId = localStorage.getItem("currentUserId")
+            const response = await axios.get(`./api/${currentLoggedUserId}`);
+            const loggedUser: User = await response.data;
+            if (loggedUser) {
+                setCurrentLoggedUser(() => loggedUser);
+            }
+        }
+        FetchLoggedUser();
+        console.log("Usuario logado: ");
+        console.log(currentLoggedUser);
+
+        localStorage.setItem("currentUser", JSON.stringify(currentLoggedUser));
+
         async function FetchData() {
             const response = await axiosInstance.get('./api/getAllUsers')
             setUsers(response.data)
@@ -33,7 +58,8 @@ function Home() {
         }
 
         FetchData();
-    }, [])
+
+    }, [loadingUsers])
 
     useEffect(() => {
         const token = cookies.get('token');
@@ -57,7 +83,9 @@ function Home() {
                 <div className="navigationDiv">
                     <button><FiMenu size={24} /></button>
                     <h2>Home</h2>
-                    <div className="profile"></div>
+                    <div className="profile">
+                        {/* <Image src={currentLoggedUser!.profilePicture} alt="" width={20} height={20} /> */}
+                    </div>
                 </div>
                 <div className="searchBar">
                     <input type="text" placeholder="Search..." />
