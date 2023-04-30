@@ -32,7 +32,10 @@ function Step1() {
                 setIncorrectCredentials(false)
                 const data = await response.data;
                 updateContextValue(data.id);
-                router.push("/home");
+
+                setTimeout(() => {
+                    router.push("/home");
+                }, 1000)
             }
 
         } catch (error) {

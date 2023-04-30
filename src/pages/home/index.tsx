@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import cookies from 'js-cookie';
 
-import { FiMessageCircle, FiMenu, FiSearch, FiLoader } from 'react-icons/fi'
+import { FiMessageCircle, FiMenu, FiSearch, FiLoader, FiX } from 'react-icons/fi'
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
 import { useCurrentUserContext } from "@/hooks/useCurrentUser";
 import axios from "axios";
+import Link from "next/link";
 
 interface User {
     id: number;
@@ -26,8 +27,9 @@ function Home() {
     const [users, setUsers] = useState<User[]>([]);
     const [loadingUsers, setLoadingUsers] = useState(true);
     const [bloodTypeFilter, setBloodTypeFilter] = useState("");
-    const [userCookieSession, setUserCookieSession] = useState<string>('');
     const [currentLoggedUser, setCurrentLoggedUser] = useState<User>({} as User);
+    const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const [profileOptionsOpen, setProfileOptionsOpen] = useState<boolean>(false);
 
     const router = useRouter()
 
@@ -36,20 +38,27 @@ function Home() {
             localStorage.getItem("currentUser")
         }
 
-
         async function FetchLoggedUser() {
             const currentLoggedUserId = localStorage.getItem("currentUserId")
-            const response = await axios.get(`./api/${currentLoggedUserId}`);
-            const loggedUser: User = await response.data;
-            if (loggedUser) {
-                setCurrentLoggedUser(() => loggedUser);
+            if (!currentLoggedUserId) {
+                console.log("UserID is missing! No user logged in");
+                router.push("/login");
+
+            } else {
+                const response = await axios.get(`./api/${currentLoggedUserId}`);
+                console.log(response)
+                const loggedUser: User = await response.data;
+                console.log(loggedUser)
+                if (loggedUser) {
+                    setCurrentLoggedUser(() => loggedUser);
+                    localStorage.setItem("currentUser", JSON.stringify(currentLoggedUser));
+                    console.log("Usuario logado: ");
+                    console.log(currentLoggedUser);
+                }
             }
         }
-        FetchLoggedUser();
-        console.log("Usuario logado: ");
-        console.log(currentLoggedUser);
 
-        localStorage.setItem("currentUser", JSON.stringify(currentLoggedUser));
+        FetchLoggedUser();
 
         async function FetchData() {
             const response = await axiosInstance.get('./api/getAllUsers')
@@ -61,14 +70,6 @@ function Home() {
 
     }, [loadingUsers])
 
-    useEffect(() => {
-        const token = cookies.get('token');
-
-        setUserCookieSession(token!)
-        console.log(token)
-    }, [])
-
-
     console.log(users)
 
     const buttonTypes = [{ type: "A+" }, { type: "A-" }, { type: "B+" }, { type: "B-" }, { type: "AB+" }, { type: "AB-" }, { type: "O+" }, { type: "O-" },]
@@ -77,14 +78,40 @@ function Home() {
         users.filter(filteredUser => filteredUser.bloodType.includes("")) :
         users.filter(filteredUser => filteredUser.bloodType == bloodTypeFilter);
 
+    function changeMenuStatus() {
+        menuOpen === true ? setMenuOpen(false) : setMenuOpen(true)
+    }
+
     return (
         <HomeContainer>
             <TopContainer>
                 <div className="navigationDiv">
-                    <button><FiMenu size={24} /></button>
+                    <button onClick={changeMenuStatus}><FiMenu size={24} /></button>
+                    <div className={menuOpen === true ? 'menuDiv open' : 'menuDiv'}>
+                        <div>
+
+                            <button onClick={changeMenuStatus}>
+                                <FiX size={24} />
+                            </button>
+                            <Link href="https://www.gov.br/saude/pt-br/composicao/saes/sangue" target={"_blank"}>Como doar sangue?</Link>
+                            <Link href="https://github.com/VitorHugoAntunes/Blood_Donation_App" target={"_blank"}>Github deste projeto</Link>
+                        </div>
+                        <span>Next version: 13.3.1</span>
+                    </div>
                     <h2>Home</h2>
                     <div className="profile">
-                        {/* <Image src={currentLoggedUser!.profilePicture} alt="" width={20} height={20} /> */}
+                        <Image
+                            src={currentLoggedUser!.profilePicture}
+                            alt=""
+                            width={20}
+                            height={20}
+                            onClick={() => profileOptionsOpen === true ? setProfileOptionsOpen(false) : setProfileOptionsOpen(true)}
+                        />
+
+                        <div className={profileOptionsOpen === true ? "profileMenuOptions open" : "profileMenuOptions"}>
+                            <span>Logado como: <strong>{currentLoggedUser.name}</strong></span>
+                            <Link href={"/login"}>Sair da conta</Link>
+                        </div>
                     </div>
                 </div>
                 <div className="searchBar">
@@ -129,14 +156,3 @@ function Home() {
 }
 
 export default Home;
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//     const { req } = context;
-//     const userCookie = req.headers.cookie
-//     const token = userCookie?.split('=')[1];
-//     return {
-//         props: {
-//             token
-//         }
-//     }
-// }

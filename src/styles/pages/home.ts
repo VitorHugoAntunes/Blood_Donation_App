@@ -38,6 +38,7 @@ export const TopContainer = styled('div', {
         },
 
         "&.navigationDiv": {
+            position: "relative",
             button: {
                 background: "none",
 
@@ -51,6 +52,48 @@ export const TopContainer = styled('div', {
                 }
             },
 
+            ".menuDiv": {
+                position: "fixed",
+                zIndex: "10",
+                width: "15rem",
+                height: "100vh",
+                background: "$red300",
+                display: "none",
+                padding: "2rem 1rem",
+                top: 0,
+                left: 0,
+
+                button: {
+                    marginTop: "0.4rem",
+                },
+
+                "&.open": {
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                    justifyContent: "space-between",
+
+                    "> div": {
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "start",
+
+                        a: {
+                            marginTop: "1rem",
+                            color: "$white",
+                            textDecoration: "none"
+                        },
+
+                    },
+
+
+                    span: {
+                        alignSelf: "center",
+                        color: "$white",
+                    }
+                }
+            },
+
             h2: {
                 color: "$white"
             },
@@ -59,7 +102,49 @@ export const TopContainer = styled('div', {
                 background: "$white",
                 width: "2rem",
                 height: "2rem",
-                borderRadius: "50%",
+                borderRadius: "50px",
+
+                position: "relative",
+
+                img: {
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "50px",
+                    cursor: "pointer",
+
+                    "&:hover": {
+                        filter: "brightness(0.9)"
+                    }
+                },
+
+                ".profileMenuOptions": {
+                    position: "absolute",
+                    display: "none",
+
+                    "&.open": {
+                        display: "flex",
+                        flexDirection: "column",
+                        background: "$white",
+                        right: 0,
+                        zIndex: 10,
+                        padding: "1.5rem 1rem",
+                        width: "20rem",
+                        borderRadius: "4px",
+                        border: "1px solid $gray500",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "1rem",
+
+                        a: {
+                            textDecoration: "none",
+                            color: "$gray700",
+
+                            "&:hover": {
+                                color: "$gray500"
+                            }
+                        }
+                    }
+                }
             }
         },
 

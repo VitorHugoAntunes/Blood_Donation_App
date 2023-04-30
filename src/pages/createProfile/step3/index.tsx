@@ -32,7 +32,7 @@ function Step1() {
         await axiosInstance.post('../api/users', data)
             .then(response => console.log(response.data))
 
-        router.push("/home")
+        router.push("/login")
     }
 
     return (
