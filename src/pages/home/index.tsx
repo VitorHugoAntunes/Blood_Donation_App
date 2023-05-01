@@ -25,6 +25,8 @@ interface User {
 }
 
 function Home() {
+    const { updateContextValue } = useCurrentUserContext();
+
     const [users, setUsers] = useState<User[]>([]);
     const [loadingUsers, setLoadingUsers] = useState(true);
     const [bloodTypeFilter, setBloodTypeFilter] = useState("");
@@ -42,20 +44,18 @@ function Home() {
 
         async function FetchLoggedUser() {
             const currentLoggedUserId = localStorage.getItem("currentUserId")
-            if (!currentLoggedUserId) {
+            if (!currentLoggedUserId || currentLoggedUserId === '') {
                 console.log("UserID is missing! No user logged in");
                 router.push("/login");
 
             } else {
                 const response = await axios.get(`./api/${currentLoggedUserId}`);
-                console.log(response)
                 const loggedUser: User = await response.data;
+                console.log("Usuario logado atualmente:")
                 console.log(loggedUser)
                 if (loggedUser) {
-                    setCurrentLoggedUser(() => loggedUser);
+                    setCurrentLoggedUser(loggedUser);
                     localStorage.setItem("currentUser", JSON.stringify(currentLoggedUser));
-                    console.log("Usuario logado: ");
-                    console.log(currentLoggedUser);
                 }
             }
         }
@@ -69,10 +69,7 @@ function Home() {
         }
 
         FetchData();
-
-    }, [loadingUsers])
-
-    console.log(users)
+    }, [])
 
     const buttonTypes = [{ type: "A+" }, { type: "A-" }, { type: "B+" }, { type: "B-" }, { type: "AB+" }, { type: "AB-" }, { type: "O+" }, { type: "O-" },]
 
@@ -81,14 +78,13 @@ function Home() {
         users.filter(filteredUser => filteredUser.bloodType == bloodTypeFilter);
 
     const filteredUsers = filteredUsersByBloodType.filter(user => user.city.toLowerCase().includes(searchValueCity.toLowerCase()))
-    console.log(searchValueCity)
-    console.log(filteredUsers)
 
     function changeMenuStatus() {
         menuOpen === true ? setMenuOpen(false) : setMenuOpen(true)
     }
 
     function logOutUser() {
+        updateContextValue('')
         cookies.remove('token');
         localStorage.removeItem('currentUserId');
     }

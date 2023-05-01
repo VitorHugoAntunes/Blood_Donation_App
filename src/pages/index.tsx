@@ -25,18 +25,20 @@ function Initial() {
     },
     {
       image: donationImage,
-      title: "Donated",
+      title: "Donate",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima nulla perspiciatis unde qui veritatis ex necessitatibus doloribus eum ad repellendus, ratione voluptatem sit accusantium possimus dolorem voluptate magnam harum. Dolor."
     },
   ]
 
-  function handleChangeScreen() {
+  function handleChangeScreen(action?: string) {
     if (currentPosition === 0) {
       setCurrentPosition(currentPosition + 1)
     }
 
-    if (currentPosition === screens.length - 1) {
-      router.push("/createProfile/step1")
+    if (currentPosition === screens.length - 1 && action === 'login') {
+      router.push('/login')
+    } else if (action === 'createProfile') {
+      router.push('/createProfile/step1')
     }
   }
 
@@ -58,7 +60,10 @@ function Initial() {
         <div className={currentPosition === 1 ? 'position active' : 'position'}></div>
       </div>
 
-      <button onClick={handleChangeScreen}>{currentPosition !== screens.length - 1 ? 'Next' : 'Lets begin'}</button>
+      <div className="actionsDiv">
+        <button onClick={() => handleChangeScreen("login")}>{currentPosition !== screens.length - 1 ? 'Next' : 'Sign in'}</button>
+        <button className={currentPosition !== screens.length - 1 ? 'invisible' : ''} onClick={() => handleChangeScreen("createProfile")}>Sign up</button>
+      </div>
     </InitialContainer>
   );
 }

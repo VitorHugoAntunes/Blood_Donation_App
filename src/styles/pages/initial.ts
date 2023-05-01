@@ -70,5 +70,13 @@ export const InitialContainer = styled('div', {
             background: "$red300",
             width: "3rem",
         },
+    },
+
+    "> div.actionsDiv": {
+        width: "100%",
+
+        "button.invisible": {
+            display: "none"
+        }
     }
 })
