@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import cookies from 'js-cookie';
+import ReactWhatsapp from 'react-whatsapp';
 
 import { FiMessageCircle, FiMenu, FiSearch, FiLoader, FiX } from 'react-icons/fi'
 import * as ToggleGroup from '@radix-ui/react-toggle-group';
@@ -30,6 +31,7 @@ function Home() {
     const [currentLoggedUser, setCurrentLoggedUser] = useState<User>({} as User);
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [profileOptionsOpen, setProfileOptionsOpen] = useState<boolean>(false);
+    const [searchValueCity, setSearchValueCity] = useState('');
 
     const router = useRouter()
 
@@ -74,12 +76,21 @@ function Home() {
 
     const buttonTypes = [{ type: "A+" }, { type: "A-" }, { type: "B+" }, { type: "B-" }, { type: "AB+" }, { type: "AB-" }, { type: "O+" }, { type: "O-" },]
 
-    const filteredUsers = bloodTypeFilter === "" ?
+    const filteredUsersByBloodType = bloodTypeFilter === "" ?
         users.filter(filteredUser => filteredUser.bloodType.includes("")) :
         users.filter(filteredUser => filteredUser.bloodType == bloodTypeFilter);
 
+    const filteredUsers = filteredUsersByBloodType.filter(user => user.city.toLowerCase().includes(searchValueCity.toLowerCase()))
+    console.log(searchValueCity)
+    console.log(filteredUsers)
+
     function changeMenuStatus() {
         menuOpen === true ? setMenuOpen(false) : setMenuOpen(true)
+    }
+
+    function logOutUser() {
+        cookies.remove('token');
+        localStorage.removeItem('currentUserId');
     }
 
     return (
@@ -110,12 +121,12 @@ function Home() {
 
                         <div className={profileOptionsOpen === true ? "profileMenuOptions open" : "profileMenuOptions"}>
                             <span>Logado como: <strong>{currentLoggedUser.name}</strong></span>
-                            <Link href={"/login"}>Sair da conta</Link>
+                            <Link href={"/login"} onClick={logOutUser}>Sair da conta</Link>
                         </div>
                     </div>
                 </div>
                 <div className="searchBar">
-                    <input type="text" placeholder="Search..." />
+                    <input type="text" placeholder="Search by city..." onChange={(event) => setSearchValueCity(event.target.value)} value={searchValueCity} />
                     <FiSearch size={24} />
                 </div>
             </TopContainer>
@@ -139,12 +150,19 @@ function Home() {
                                     <Image src="https://avatars.githubusercontent.com/u/51717305?v=4" alt="" width={100} height={100} />
                                     <div>
                                         <h4>{user.name}</h4>
-                                        <span>São Paulo</span>
+                                        <span>{user.city}</span>
                                     </div>
                                 </div>
                                 <div>
                                     <strong className="userBloodType">{user.bloodType}</strong>
-                                    <button><FiMessageCircle size={24} /></button>
+                                    <ReactWhatsapp
+                                        element="button"
+                                        number={user.mobileNumber}
+                                        message="Olá! Observei que você está cadastrado(a) no aplicativo de doadores de sangue. Se possível, gostaria de saber se você poderia ajudar. :)"
+                                    >
+                                        <FiMessageCircle size={24} />
+                                    </ReactWhatsapp>
+
                                 </div>
                             </div>
                         ))}
