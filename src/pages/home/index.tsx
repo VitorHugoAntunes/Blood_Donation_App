@@ -66,6 +66,7 @@ function Home() {
             const response = await axiosInstance.get('./api/getAllUsers')
             setUsers(response.data)
             setLoadingUsers(false);
+            console.log(users)
         }
 
         FetchData();
@@ -154,7 +155,7 @@ function Home() {
                                     <ReactWhatsapp
                                         element="button"
                                         number={user.mobileNumber}
-                                        message="Olá! Observei que você está cadastrado(a) no aplicativo de doadores de sangue. Se possível, gostaria de saber se você poderia ajudar. :)"
+                                        message={`Olá ${user.name}! Observei que você está cadastrado(a) no aplicativo de doadores de sangue e que seu tipo sanguíneo é ${user.bloodType}. Se possível, gostaria de saber se você poderia ajudar. :)`}
                                     >
                                         <FiMessageCircle size={24} />
                                     </ReactWhatsapp>
