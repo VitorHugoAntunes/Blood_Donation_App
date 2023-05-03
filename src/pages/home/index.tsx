@@ -144,7 +144,7 @@ function Home() {
                         filteredUsers.map(user => (
                             <div key={user.id}>
                                 <div>
-                                    <Image src="https://avatars.githubusercontent.com/u/51717305?v=4" alt="" width={100} height={100} />
+                                    <Image src={user.profilePicture} alt="" width={100} height={100} />
                                     <div>
                                         <h4>{user.name}</h4>
                                         <span>{user.city}</span>
